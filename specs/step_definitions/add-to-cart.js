@@ -41,7 +41,7 @@ When('Added the product to the cart {string} times', (clickCount) => {
   for (let i = 1; i <= +clickCount; i++) {
     cy.get('.product h2').contains(searchName)
       .parents('.product')
-      .find('button').contains('köp')
+      .find('button').contains('Köp')
       .click();
   }
 });
