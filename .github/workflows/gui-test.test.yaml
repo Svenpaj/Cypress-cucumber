@@ -19,11 +19,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version}}
-      - name: get chrome
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      #- name: get chrome
+      #run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-      - name: install chrome
-        run: sudo apt install ./google-chrome-stable_current_amd64.deb
+      #- name: install chrome
+      #  run: sudo apt install ./google-chrome-stable_current_amd64.deb
 
       - name: npm install
         run: npm install
