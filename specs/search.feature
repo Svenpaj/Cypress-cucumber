@@ -14,9 +14,10 @@ Feature: Search
     Given I enter the letter "b" in the search field
     Then I should see the product "Bordslampa"
 
-  Scenario: Searching for products including "b"
-    Given I enter the letter "b" in the search field
-    Then I should see the product "Bordslampa"
+  Scenario: Searching for products including "g"
+    Given I enter the letter "g" in the search field
+    Then I should see the product "Golvlampa"
+    And I should see the product "Spotlight"
 
   Scenario: Searching for products including "T"
     Given I enter the letter "T" in the search field
