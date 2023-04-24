@@ -3,7 +3,7 @@ Feature: Search
   using the search field.
 
   Background: Start from home page /
-    Given: that I am on the starting page
+    Given that I am on the starting page
 
   Scenario: Searching for products including "s"
     Given I enter the letter "s" in the search field
