@@ -6,8 +6,8 @@ Feature: Add to cart
     Given that I am on the start page
 
   Scenario Outline: Adding "<quantity>" "<product>" to the cart
-    Given That I have searched for "<product>"
-    When I click the buy button "<quantity>" time
+    When That I have searched for "<product>"
+    And I click the buy button "<quantity>" time
     Then "<quantity>" "<product>" should be added to the cart
 
     Examples:
@@ -19,17 +19,27 @@ Feature: Add to cart
       | Golvlampa  | 2        |
 
 
-# Scenario: Adding "1" "Bordslampa" to the cart
-#  Given that I have searched for "Bordslampa"
-#  When I click the buy button "1" time
-#  Then "1" "Bordslampa" should be added to the cart
+  Scenario: Validating the price if its correct for "2" "Golvlampa"
+    When That I search for "Golvlampa"
+    And Added the product to the cart "2" times
+    Then The price should be correct
 
-# Scenario: Adding "2" "Bordslampa" to the cart
-#  Given that I have searched for "Bordslampa"
-#  When I click the buy button "2" time
-#  Then "2" "Bordslampa" should be added to the cart
+  Scenario: Validating the price if its correct for "5" "Golvlampor"
+    When That I search for "Golvlampa"
+    And Added the product to the cart "5" times
+    Then The price should be correct
 
-# Scenario: Adding "3" "Golvlampa" to the cart
-#  Given that I have searched for "Golvlampa"
-#  When I click the buy button "3" time
-#  Then "3" "Golvlampa" should be added to the cart
+  Scenario: Validating the price if its correct for "2" "Spotlights"
+    When That I search for "Spotlight"
+    And Added the product to the cart "2" times
+    Then The price should be correct
+
+  Scenario: Validating the price if its correct for "5" "Taklampor"
+    When That I search for "Taklampa"
+    And Added the product to the cart "5" times
+    Then The price should be correct
+
+  Scenario: Validating the price if its correct for "8" "Bordslampor"
+    When That I search for "Bordslampa"
+    And Added the product to the cart "8" times
+    Then The price should be correct
