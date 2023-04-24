@@ -1,9 +1,11 @@
 import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
-/*Given('that I am on the start page', () => {
+Given('that I am on the start page', () => {
   cy.visit('/');
-});*/
+});
+
 let searchedFor;
+
 Given('That I have searched for {string}', (searchTerm) => {
   searchedFor = searchTerm;
   cy.get('#search').type(searchTerm);

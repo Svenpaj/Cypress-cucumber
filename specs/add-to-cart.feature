@@ -2,7 +2,7 @@ Feature: Add to cart
   as a user i want to be able to add products
   to the cart, so that I can buy them.
 
-  Background:
+  Background: That I am on the home page
     Given that I am on the start page
 
   Scenario Outline: Adding "<quantity>" "<product>" to the cart
