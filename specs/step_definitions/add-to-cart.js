@@ -47,7 +47,7 @@ When('Added the product to the cart {string} times', (clickCount) => {
 });
 
 Then('The price should be correct', () => {
-  let collected [];
+  let collected = [];
   cy.get('#cart li')
     .contains(searchName)
     .find('span').each(span => {
