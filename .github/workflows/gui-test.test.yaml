@@ -1,34 +1,81 @@
-name: API Tests
+name: test and deploy
 
 on:
   push:
+    branches: [main]
   pull_request:
-    branches: [dev, main]
+    branches: [main]
 
 jobs:
-  build:
+  # job 1: tests
+  tests:
     runs-on: ubuntu-latest
 
     strategy:
+      # testing on Node 16t and 18
       matrix:
         node-version: [18.x]
 
     steps:
+      # action from github marketplace, actions
+      # checkout this repo on the server
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version}}
-        uses: actions/setup-node@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        # action from github marketplace, actions
+        # install Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version}}
-      #- name: get chrome
-      #run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+        # npm ci ≈ read-only from package.json version
+        # of npm install -> installs all npm modules
+        # mentioned in package.json, preferably during CI
+      - run: npm ci
+        # if the project has a npm run build command
+        # then runs (not needed right now but keep)
+      - run: npm run build --if-present
+        # start the server
+      - run: nohup npm start &
+        # run whatever is specified in package.json
+        # for the script test
+      - run: npm test
 
-      #- name: install chrome
-      #  run: sudo apt install ./google-chrome-stable_current_amd64.deb
+  deploy:
+    # demand that the  test job succeed
+    # before running deploy
+    needs: [tests]
 
-      - name: npm install
-        run: npm install
-      - name: backend
-        run: nohup npm run backend & exit
+    # only run this job if the environment protection rules
+    # (a reviewers approves and we are on the dev branch)
+    # are fulfilled
+    # TO BE CHECKD BY THOMAS:
+    # FOR NOW DEPLOY AUTOMATICALLY
+    # environment: "Main deploy"
 
-      - name: gui testing
-        run: npm test
+    runs-on: ubuntu-latest
+    steps:
+      - name: executing remote ssh commands using password
+        # using ssh-action from appleboy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          # using repository secrets
+          # for login to your server
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          # commands to run on your server
+          # below just an example
+          # can be more (like restarting pm2)
+          script: |
+            echo "cd to correct folder"
+            cd /var/www/Cypress-cucumber
+            echo "git pull"
+            git pull
+            echo "npm install"
+            npm install
+            echo "running build if present"
+            npm run build --if-present
+            echo "restarting app in pm2"
+            pm2 restart lumia-shop
+            pm2 restart reverse-proxy
