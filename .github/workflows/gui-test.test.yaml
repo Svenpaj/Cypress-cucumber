@@ -26,7 +26,6 @@ jobs:
 
   deploy:
     needs: [tests]
-    environment: "Main deploy"
 
     runs-on: ubuntu-latest
     steps:
