@@ -1,5 +1,5 @@
 name: test and deploy
-# this is a test to show jarl this is working
+# this does not work with a protective branch
 on:
   pull_request:
     branches: [main, dev]
